@@ -16,7 +16,7 @@ export default class StatusUpdateMutator extends IMMOClientMutator<
 
       Object.keys(packet.Stats).forEach((key) => {
         const status: number = parseInt(key, 10);
-        const value = packet.Stats[status];
+        const value = packet.Stats[status] as number;
 
         switch (status) {
           case StatusUpdate.LEVEL:
@@ -26,7 +26,7 @@ export default class StatusUpdateMutator extends IMMOClientMutator<
             break;
           case StatusUpdate.EXP:
             if (char instanceof L2User) {
-              char.Exp = value;
+              char.Exp = value as unknown as bigint;
             }
             break;
           case StatusUpdate.STR:

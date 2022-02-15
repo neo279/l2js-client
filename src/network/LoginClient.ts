@@ -39,7 +39,9 @@ export default class LoginClient extends MMOClient {
   }
 
   init(config: MMOConfig, connection?: IConnection): this {
-    this.Connection = connection ?? new MMOConnection(SocketFactory.getSocketAdapter(config), this);
+    this.Connection =
+      connection ??
+      new MMOConnection(SocketFactory.getSocketAdapter(config), this);
 
     this.Config = config;
 
@@ -78,7 +80,7 @@ export default class LoginClient extends MMOClient {
 
     this.logger.debug("Sending ", lsp.constructor.name);
     return this.sendRaw(sendable).then(() => {
-      this.fire(`PacketSent:${lsp.constructor.name}`, { packet: lsp });
+      this.emit(`PacketSent:${lsp.constructor.name}`, { packet: lsp });
     });
   }
 

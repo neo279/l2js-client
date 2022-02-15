@@ -9,7 +9,7 @@ export default class AbnormalStatusUpdateMutator extends IMMOClientMutator<
   update(packet: AbnormalStatusUpdate): void {
     const list = this.Client.BuffsList;
     if (list) {
-      packet.AbnormalBuffs.forEach(buff => {
+      packet.AbnormalBuffs.forEach((buff) => {
         list.removeById(buff.Id);
         list.add(buff);
         if (buff.RemainingTime > 0) {

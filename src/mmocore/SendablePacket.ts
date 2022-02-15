@@ -45,12 +45,8 @@ export default abstract class SendablePacket extends AbstractPacket {
     return this;
   }
 
-  writeQ(val: number): this {
-    const hi = Math.floor(val / this.pow2(32));
-    const lo = val - hi * this.pow2(32);
-
-    this._view.setUint32(this._offset, lo, true);
-    this._view.setUint32(this._offset + 4, hi, true);
+  writeQ(val: bigint): this {
+    this._view.setBigInt64(this._offset, val, true);
     this._offset += 8;
     return this;
   }

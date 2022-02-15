@@ -14,7 +14,7 @@ export default class PartyMemberPositionMutator extends IMMOClientMutator<
         const [_x, _y, _z] = packet.Members[objId];
         char.setLocation(_x, _y, _z);
         char.calculateDistance(this.Client.ActiveChar);
-        this.fire("PartyMemberPosition", { member: char });
+        this.emit("PartyMemberPosition", { member: char });
       }
     });
   }

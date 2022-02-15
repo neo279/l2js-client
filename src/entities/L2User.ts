@@ -24,7 +24,7 @@ export default class L2User extends L2Character {
   private _recommLeft!: number;
   private _fame!: number;
   private _vitality!: number;
-  private _exp!: number;
+  private _exp!: bigint;
   private _expPercent!: number;
   private _sp!: number;
   private _load!: number;
@@ -208,11 +208,11 @@ export default class L2User extends L2Character {
     this._vitality = value;
   }
 
-  public get Exp(): number {
+  public get Exp(): bigint {
     return this._exp;
   }
 
-  public set Exp(value: number) {
+  public set Exp(value: bigint) {
     this._exp = value;
   }
   public get ExpPercent(): number {

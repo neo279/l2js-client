@@ -239,5 +239,5 @@ export {
   SetupGauge,
   ExFishingEnd,
   ExFishingHpRegen,
-  ExRotation
+  ExRotation,
 };

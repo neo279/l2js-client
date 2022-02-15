@@ -7,7 +7,7 @@ export default class CreatureSayMutator extends IMMOClientMutator<
   CreatureSay
 > {
   update(packet: CreatureSay): void {
-    this.fire("CreatureSay", {
+    this.emit("CreatureSay", {
       objectId: packet.ObjectId,
       type: packet.Type,
       charName: packet.CharName,

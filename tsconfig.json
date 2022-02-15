@@ -2,8 +2,8 @@
   "declaration": true,
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es6",
-    "lib": ["es5", "es6", "dom"],
+    "target": "esnext",
+    "lib": ["esnext", "dom"],
     "declaration": true,
     "outDir": "./dist",
     "rootDir": "./src",

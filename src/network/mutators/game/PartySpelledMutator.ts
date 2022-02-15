@@ -16,7 +16,7 @@ export default class PartySpelledMutator extends IMMOClientMutator<
         creature.Buffs.add(buff);
       });
 
-      this.fire("PartySpelled", { creature });
+      this.emit("PartySpelled", { creature });
     }
   }
 }

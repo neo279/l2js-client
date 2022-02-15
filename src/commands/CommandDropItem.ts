@@ -4,7 +4,7 @@ import RequestDropItem from "../network/outgoing/game/RequestDropItem";
 export default class CommandDropItem extends AbstractGameCommand {
   execute(
     objectId: number,
-    count: number,
+    count: bigint,
     x?: number,
     y?: number,
     z?: number

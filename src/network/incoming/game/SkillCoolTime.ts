@@ -23,7 +23,7 @@ export default class SkillCoolTime extends GameClientPacket {
         id: _skillId,
         lvl: _skillLvl,
         reuse: _reuse,
-        remaining: _remaining
+        remaining: _remaining,
       });
     }
     return true;

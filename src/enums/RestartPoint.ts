@@ -13,5 +13,5 @@ export enum RestartPoint {
 
   AGATHION = 6,
 
-  JAIL = 27
+  JAIL = 27,
 }

@@ -21,8 +21,11 @@ export default class StopMoveMutator extends IMMOClientMutator<
       if (this.Client.ActiveChar.ObjectId !== packet.ObjectId) {
         // TODO: update this to use .on("StopMove") event?
         creature.calculateDistance(this.Client.ActiveChar);
-      } else { // we should send validate position once stopped
-        this.Client.sendPacket(new ValidatePosition(_x, _y, _z, packet.Heading, 0x00));
+      } else {
+        // we should send validate position once stopped
+        this.Client.sendPacket(
+          new ValidatePosition(_x, _y, _z, packet.Heading, 0x00)
+        );
       }
       creature.IsMoving = false;
     }

@@ -7,7 +7,7 @@ export default class NpcHtmlMessageMutator extends IMMOClientMutator<
   NpcHtmlMessage
 > {
   update(packet: NpcHtmlMessage): void {
-    this.fire("NpcHtmlMessage", {
+    this.emit("NpcHtmlMessage", {
       npcObjectId: packet.NpcObjectId,
       html: packet.Html,
       itemId: packet.ItemId,

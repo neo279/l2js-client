@@ -21,7 +21,7 @@ export default class RecipeBookItemListMutator extends IMMOClientMutator<
       }
     });
 
-    this.fire("RecipeBook", {
+    this.emit("RecipeBook", {
       isDwarven: packet.IsDwarvenCraft,
     });
   }

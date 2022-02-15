@@ -1,3 +1,4 @@
+import L2User from "../../../entities/L2User";
 import IMMOClientMutator from "../../../mmocore/IMMOClientMutator";
 import GameClient from "../../GameClient";
 import UserInfo from "../../incoming/game/UserInfo";
@@ -9,15 +10,17 @@ export default class UserInfoMutator extends IMMOClientMutator<
   update(packet: UserInfo): void {
     const user = this.Client.ActiveChar;
     if (!user) {
-      this.Client.ActiveChar = packet.User;
-    } else {
-      let eventHandlers = this.Client.ActiveChar._eventHandlers;
-      Object.assign(this.Client.ActiveChar, packet.User);
-      // Restore event handlers
-      this.Client.ActiveChar._eventHandlers = eventHandlers;
+      this.Client.ActiveChar = new L2User();
     }
 
-    if (!this.Client.CreaturesList.getEntryByObjectId(packet.User.ObjectId)) {
+    Object.assign(this.Client.ActiveChar, packet.User);
+
+    if (
+      this.Client.ActiveChar.ObjectId &&
+      !this.Client.CreaturesList.getEntryByObjectId(
+        this.Client.ActiveChar.ObjectId
+      )
+    ) {
       this.Client.CreaturesList.add(this.Client.ActiveChar);
     }
   }

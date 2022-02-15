@@ -9,7 +9,7 @@ export default class PartySmallWindowAddMutator extends IMMOClientMutator<
   update(packet: PartySmallWindowAdd): void {
     this.Client.PartyList.add(packet.PartyMember);
 
-    this.fire("PartySmallWindow", {
+    this.emit("PartySmallWindow", {
       member: packet.PartyMember,
       action: "add",
     });

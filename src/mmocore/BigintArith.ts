@@ -177,7 +177,9 @@ export function toZn(a: number | bigint, n: number | bigint): bigint {
 export function modInv(a: number | bigint, n: number | bigint): bigint {
   const egcd = eGcd(toZn(a, n), n);
   if (egcd.g !== big1) {
-    throw new RangeError(`${a.toString()} does not have inverse modulo ${n.toString()}`); // modular inverse does not exist
+    throw new RangeError(
+      `${a.toString()} does not have inverse modulo ${n.toString()}`
+    ); // modular inverse does not exist
   } else {
     return toZn(egcd.x, n);
   }
@@ -194,7 +196,11 @@ export function modInv(a: number | bigint, n: number | bigint): bigint {
  *
  * @returns b**e mod n
  */
-export function modPow(b: number | bigint, e: number | bigint, n: number | bigint): bigint {
+export function modPow(
+  b: number | bigint,
+  e: number | bigint,
+  n: number | bigint
+): bigint {
   if (typeof b === "number") b = BigInt(b);
   if (typeof e === "number") e = BigInt(e);
   if (typeof n === "number") n = BigInt(n);

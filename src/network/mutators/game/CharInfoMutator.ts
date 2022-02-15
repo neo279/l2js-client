@@ -38,6 +38,6 @@ export default class CharInfoMutator extends IMMOClientMutator<
       }
     }
 
-    this.fire("CharInfo", { creature: char });
+    this.emit("CharInfo", { creature: char });
   }
 }

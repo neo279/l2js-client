@@ -36,7 +36,7 @@ export default class StatusUpdate extends GameClientPacket {
 
   ObjectId!: number;
 
-  Stats: Record<number, number> = {};
+  Stats: Record<number, number | bigint> = {};
 
   // @Override
   readImpl(): boolean {

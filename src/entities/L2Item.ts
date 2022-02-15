@@ -38,7 +38,8 @@ export default class L2Item extends L2Object {
   static readonly SLOT_BABYPET: number = -103;
   static readonly SLOT_GREATWOLF: number = -104;
 
-  static readonly SLOT_MULTI_ALLWEAPON = L2Item.SLOT_LR_HAND | L2Item.SLOT_R_HAND;
+  static readonly SLOT_MULTI_ALLWEAPON =
+    L2Item.SLOT_LR_HAND | L2Item.SLOT_R_HAND;
 
   private _attackElementType!: Element;
   private _attackElementVal!: number;
@@ -57,7 +58,7 @@ export default class L2Item extends L2Object {
   private _type!: ItemType;
   private _grade!: ItemGrade;
   private _enchantLevel!: number;
-  private _count!: number;
+  private _count!: bigint;
   private _ingredients: L2ObjectCollection<L2Item> = new L2ObjectCollection();
 
   public get AttackElementVal(): number {
@@ -160,11 +161,11 @@ export default class L2Item extends L2Object {
   public set EnchantLevel(value: number) {
     this._enchantLevel = value;
   }
-  public get Count(): number {
+  public get Count(): bigint {
     return this._count;
   }
 
-  public set Count(value: number) {
+  public set Count(value: bigint) {
     this._count = value;
   }
 }

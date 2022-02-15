@@ -4,7 +4,7 @@ export default class AddTradeItem extends GameServerPacket {
   constructor(
     public tradeId: number,
     public objectId: number,
-    public count: number
+    public count: bigint
   ) {
     super();
   }

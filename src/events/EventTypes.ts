@@ -8,135 +8,95 @@ import GameClient from "../network/GameClient";
 import { ConfirmDlgType } from "../enums/ConfirmDlgType";
 
 export declare type ELoggedIn = {
-  type: string;
-  data: { login: LoginClient; game: GameClient };
-  once: boolean;
+  login: LoginClient;
+  game: GameClient;
 };
 export declare type EPacketReceived = {
-  type: string;
-  data: { packet: ReceivablePacket };
-  once: boolean;
+  packet: ReceivablePacket;
 };
 export declare type EPacketSent = {
-  type: string;
-  data: { packet: SendablePacket };
-  once: boolean;
+  packet: SendablePacket;
 };
 export declare type EPartyRequest = {
-  type: string;
-  data: { requestorName: string; partyDistributionType: number };
-  once: boolean;
+  requestorName: string;
+  partyDistributionType: number;
 };
 export declare type EDie = {
-  type: string;
-  data: { creature: L2Creature; isSpoiled: boolean };
-  once: boolean;
+  creature: L2Creature;
+  isSpoiled: boolean;
 };
 export declare type ETargetSelected = {
-  type: string;
-  data: { objectId: number; targetObjectId: number; targetLocation: number[] };
-  once: boolean;
+  objectId: number;
+  targetObjectId: number;
+  targetLocation: number[];
 };
 export declare type EMyTargetSelected = {
-  type: string;
-  data: { objectId: number };
-  once: boolean;
+  objectId: number;
 };
 export declare type EAttacked = {
-  type: string;
-  data: { object: number; subjects: number[] };
-  once: boolean;
+  object: number;
+  subjects: number[];
 };
 export declare type ERequestedDuel = {
-  type: string;
-  data: { requestorName: string };
-  once: boolean;
+  requestorName: string;
 };
 export declare type EStartMoving = {
-  type: string;
-  data: { creature: L2Creature };
-  once: boolean;
+  creature: L2Creature;
 };
 export declare type EStopMoving = {
-  type: string;
-  data: { creature: L2Creature };
-  once: boolean;
+  creature: L2Creature;
 };
 export declare type ECraftResult = {
-  type: string;
-  data: { recipeId: number; success: boolean };
-  once: boolean;
+  recipeId: number;
+  success: boolean;
 };
 export declare type ERecipeBook = {
-  type: string;
-  data: { isDwarven: boolean };
-  once: boolean;
+  isDwarven: boolean;
 };
 export declare type EPartySmallWindow = {
-  type: string;
-  data: {
-    member: L2PartyMember;
-    action: "add" | "add-all" | "delete" | "delete-all" | "update";
-  };
-  once: boolean;
+  member: L2PartyMember;
+  action: "add" | "add-all" | "delete" | "delete-all" | "update";
 };
 export declare type EPartyMemberPosition = {
-  type: string;
-  data: { member: L2PartyMember };
-  once: boolean;
+  member: L2PartyMember;
 };
 export declare type ECharInfo = {
-  type: string;
-  data: { creature: L2Creature };
-  once: boolean;
+  creature: L2Creature;
 };
 export declare type ERevive = {
-  type: string;
-  data: { creature: L2Creature };
-  once: boolean;
+  creature: L2Creature;
 };
 export declare type EConfirmDlg = {
-  type: string;
-  data: {
-    messageId: number;
-    type: ConfirmDlgType;
-    isResurrect: boolean;
-    params: [];
-    time: number;
-    requesterId: number;
-  };
-  once: boolean;
+  messageId: number;
+  type: ConfirmDlgType;
+  isResurrect: boolean;
+  params: [];
+  time: number;
+  requesterId: number;
 };
 export declare type ESystemMessage = {
-  type: string;
-  data: { messageId: number; params: [] };
-  once: boolean;
+  messageId: number;
+  params: [];
 };
 export declare type ECreatureSay = {
-  type: string;
-  data: {
-    objectId: number;
-    type: number;
-    charName: string;
-    npcStringId: number;
-    messages: string[];
-  };
-  once: boolean;
+  objectId: number;
+  type: number;
+  charName: string;
+  npcStringId: number;
+  messages: string[];
 };
 export declare type ENpcHtmlMessage = {
-  type: string;
-  data: { npcObjectId: number; html: string; itemId: number };
-  once: boolean;
+  npcObjectId: number;
+  html: string;
+  itemId: number;
 };
 export declare type ENpcQuestHtmlMessage = {
-  type: string;
-  data: { npcObjectId: number; html: string; questId: number };
-  once: boolean;
+  npcObjectId: number;
+  html: string;
+  questId: number;
 };
 export declare type EPartySpelled = {
-  type: string;
-  data: { creature: L2Creature };
-  once: boolean;
+  creature: L2Creature;
 };
 
 // Events

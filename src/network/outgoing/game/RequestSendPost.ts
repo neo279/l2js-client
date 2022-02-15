@@ -7,7 +7,7 @@ export default class RequestSendPost extends GameServerPacket {
     private _subject: string,
     private _text: string,
     private _items: L2Item[],
-    private _reqAdena: number = 0
+    private _reqAdena: bigint = 0n
   ) {
     super();
   }

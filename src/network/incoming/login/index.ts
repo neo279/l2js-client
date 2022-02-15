@@ -15,5 +15,5 @@ export {
   LoginOk,
   PlayFail,
   PlayOk,
-  ServerList
+  ServerList,
 };

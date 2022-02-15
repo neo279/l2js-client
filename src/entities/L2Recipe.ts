@@ -14,7 +14,8 @@ export default class L2Recipe extends L2Object {
 
   private _itemCount!: number;
 
-  private _ingredients: L2ObjectCollection<L2Item> = new L2ObjectCollection<L2Item>();
+  private _ingredients: L2ObjectCollection<L2Item> =
+    new L2ObjectCollection<L2Item>();
 
   private _mpCost!: number;
 

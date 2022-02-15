@@ -23,7 +23,7 @@ export default class PartySmallWindowUpdateMutator extends IMMOClientMutator<
       char.ClassId = packet.PartyMember.ClassId;
       char.IsDead = packet.PartyMember.IsDead;
 
-      this.fire("PartySmallWindow", { member: char, action: "update" });
+      this.emit("PartySmallWindow", { member: char, action: "update" });
     }
   }
 }

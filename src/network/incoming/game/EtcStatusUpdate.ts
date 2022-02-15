@@ -21,7 +21,7 @@ export default class EtcStatusUpdate extends GameClientPacket {
     EtcStatusUpdate.ETC_DEATH_PENALTY,
     EtcStatusUpdate.ETC_SOUL_EXPANSION,
     EtcStatusUpdate.ETC_WEAPON_GRADE_PENALTY,
-    EtcStatusUpdate.ETC_ARMOR_GRADE_PENALTY
+    EtcStatusUpdate.ETC_ARMOR_GRADE_PENALTY,
   ];
 
   Charges!: number;

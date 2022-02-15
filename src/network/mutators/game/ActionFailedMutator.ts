@@ -7,6 +7,6 @@ export default class ActionFailedMutator extends IMMOClientMutator<
   ActionFailed
 > {
   update(packet: ActionFailed): void {
-    this.fire("ActionFailed");
+    this.emit("ActionFailed");
   }
 }

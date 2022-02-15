@@ -14,7 +14,7 @@ export default class MyTargetSelectedMutator extends IMMOClientMutator<
       this.Client.ActiveChar.Target = npc;
     }
 
-    this.fire("MyTargetSelected", {
+    this.emit("MyTargetSelected", {
       objectId: packet.CreatureObjId,
     });
   }

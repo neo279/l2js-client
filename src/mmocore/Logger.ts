@@ -5,13 +5,13 @@ export enum LogLevel {
   INFO = 1,
   WARNING = 2,
   ERROR = 4,
-  DEBUG = 8
+  DEBUG = 8,
 }
 
 export default class Logger implements ILogger {
   private _context = "";
 
-  private _logLevel: LogLevel = 1;
+  private _logLevel: LogLevel = LogLevel.DEBUG;
 
   constructor(ctx: string, level?: LogLevel) {
     this._context = ctx;
@@ -34,7 +34,7 @@ export default class Logger implements ILogger {
           "]\x1b[m DEBUG " +
           this._context +
           " " +
-          message,
+          (message instanceof Error ? message.stack : message),
         data
       );
     }
@@ -47,7 +47,7 @@ export default class Logger implements ILogger {
           "]\x1b[m ERROR " +
           this._context +
           " " +
-          message,
+          (message instanceof Error ? message.stack : message),
         data
       );
     }
@@ -60,7 +60,7 @@ export default class Logger implements ILogger {
           "]\x1b[m WARN " +
           this._context +
           " " +
-          message,
+          (message instanceof Error ? message.stack : message),
         data
       );
     }
@@ -73,7 +73,7 @@ export default class Logger implements ILogger {
           "]\x1b[m INFO " +
           this._context +
           " " +
-          message,
+          (message instanceof Error ? message.stack : message),
         data
       );
     }

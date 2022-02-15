@@ -7,7 +7,7 @@ export default class AttackMutator extends IMMOClientMutator<
   Attack
 > {
   update(packet: Attack): void {
-    this.fire(`Attacked`, {
+    this.emit(`Attacked`, {
       object: packet.AttackerObjectId,
       subjects: packet.Subjects,
     });

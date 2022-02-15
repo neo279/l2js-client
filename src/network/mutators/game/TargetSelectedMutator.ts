@@ -17,7 +17,7 @@ export default class TargetSelectedMutator extends IMMOClientMutator<
       }
     }
 
-    this.fire("TargetSelected", {
+    this.emit("TargetSelected", {
       objectId: packet.ObjectId,
       targetObjectId: packet.TargetObjectId,
       targetLocation: packet.Location,

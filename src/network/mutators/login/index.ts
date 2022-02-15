@@ -11,5 +11,5 @@ export default [
   [InitPacketMutator.prototype, Init],
   [ServerListMutator.prototype, ServerList],
   [PlayOkMutator.prototype, PlayOk],
-  [LoginOkMutator.prototype, LoginOk]
+  [LoginOkMutator.prototype, LoginOk],
 ];

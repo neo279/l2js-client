@@ -9,7 +9,7 @@ export default class UserInfo extends GameClientPacket {
   readImpl(): boolean {
     const _id = this.readC();
 
-    this.User = new L2User();
+    this.User = {} as L2User;
 
     this.User.X = this.readD();
     this.User.Y = this.readD();
@@ -44,15 +44,15 @@ export default class UserInfo extends GameClientPacket {
 
     const _activeWeapon = this.readD() === 40; // 20 no weapon, 40 weapon equipped
 
-    GameServerPacket.PAPERDOLL_ORDER.forEach(value => {
+    GameServerPacket.PAPERDOLL_ORDER.forEach((value) => {
       const _slot1 = this.readD();
     });
 
-    GameServerPacket.PAPERDOLL_ORDER.forEach(value => {
+    GameServerPacket.PAPERDOLL_ORDER.forEach((value) => {
       const _slot2 = this.readD();
     });
 
-    GameServerPacket.PAPERDOLL_ORDER.forEach(value => {
+    GameServerPacket.PAPERDOLL_ORDER.forEach((value) => {
       const _slot3 = this.readD();
     });
 

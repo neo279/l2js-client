@@ -53,7 +53,7 @@ export default abstract class AbstractMessagePacket extends GameClientPacket {
         case AbstractMessagePacket.TYPE_SKILL_NAME:
           this.messageParams.push([
             /** SkillId */ this.readD(),
-            /** SkillLevel */ this.readD()
+            /** SkillLevel */ this.readD(),
           ]);
           break;
 
@@ -61,7 +61,7 @@ export default abstract class AbstractMessagePacket extends GameClientPacket {
           this.messageParams.push([
             /** x */ this.readD(),
             /** y */ this.readD(),
-            /** z */ this.readD()
+            /** z */ this.readD(),
           ]);
           break;
         default:

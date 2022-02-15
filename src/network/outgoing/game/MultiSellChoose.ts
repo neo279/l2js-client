@@ -4,7 +4,7 @@ export default class MultiSellChoose extends GameServerPacket {
   constructor(
     private _listId: number,
     private _entryId: number,
-    private _amount: number
+    private _amount: bigint
   ) {
     super();
   }

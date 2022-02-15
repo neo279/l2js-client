@@ -9,7 +9,7 @@ export default class PartySmallWindowDeleteAllMutator extends IMMOClientMutator<
   update(packet: PartySmallWindowDeleteAll): void {
     this.Client.PartyList.clear();
 
-    this.fire("PartySmallWindow", {
+    this.emit("PartySmallWindow", {
       member: null,
       action: "delete-all",
     });

@@ -36,11 +36,10 @@ export default abstract class ReceivablePacket extends AbstractPacket {
     return value;
   }
 
-  readQ(): number {
-    const lo = this._view.getUint32(this._offset, true);
-    const hi = this._view.getUint32(this._offset + 4, true);
+  readQ(): bigint {
+    const value = this._view.getBigInt64(this._offset, true);
     this._offset += 8;
-    return lo + this.pow2(32) * hi;
+    return value;
   }
 
   readS(): string {

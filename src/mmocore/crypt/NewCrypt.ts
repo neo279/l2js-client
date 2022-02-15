@@ -11,7 +11,11 @@ export default class NewCrypt {
     this._cipher.init(blowfishKey);
   }
 
-  static verifyChecksum(raw: Uint8Array, offset?: number, size?: number): boolean {
+  static verifyChecksum(
+    raw: Uint8Array,
+    offset?: number,
+    size?: number
+  ): boolean {
     offset = offset ?? 0;
     size = size ?? raw.byteLength;
 
@@ -68,7 +72,12 @@ export default class NewCrypt {
     raw[i + 3] = (chksum >>> 0x18) & 0xff;
   }
 
-  static decXORPass(raw: Uint8Array, offset: number, size: number, key: number): void {
+  static decXORPass(
+    raw: Uint8Array,
+    offset: number,
+    size: number,
+    key: number
+  ): void {
     const stop: number = 4 + offset;
     let pos: number = size - 12;
     let edx: number;
@@ -91,7 +100,12 @@ export default class NewCrypt {
     }
   }
 
-  static encXORPass(raw: Uint8Array, offset: number, size: number, key: number): void {
+  static encXORPass(
+    raw: Uint8Array,
+    offset: number,
+    size: number,
+    key: number
+  ): void {
     const stop = size - 8;
     let pos: number = 4 + offset;
 

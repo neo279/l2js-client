@@ -1,4 +1,3 @@
-import { EventHandler } from "./mmocore/EventEmitter";
 import L2Buff from "./entities/L2Buff";
 import L2Creature from "./entities/L2Creature";
 import L2DroppedItem from "./entities/L2DroppedItem";
@@ -47,7 +46,7 @@ export default class Client extends ClientCommands {
 
   private ___event_params(...params: EventHandlerType): {
     type: string;
-    handler: EventHandler;
+    handler: () => void;
   } {
     let type: string;
     let handler: any;

@@ -13,12 +13,12 @@ export default class L2ClientObjectCollection<
     super();
   }
 
-  add(value: T) {
-    if (!this.has(value)) {
-      value.onAll((event) => {
-        this.Client.fire(event.type, event.data);
-      });
-    }
-    return super.add(value);
-  }
+  // add(value: T) {
+  //   if (!this.has(value)) {
+  //     value.onAll((event) => {
+  //       this.Client.emit(event.type, event.data);
+  //     });
+  //   }
+  //   return super.add(value);
+  // }
 }

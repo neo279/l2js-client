@@ -11,7 +11,7 @@ export default class ConfirmDlgMutator extends IMMOClientMutator<
     this.Client.LastConfirmMessageId = packet.messageId;
     this.Client.LastConfirmMessageRequesterId = packet.RequesterId;
 
-    this.fire("ConfirmDlg", {
+    this.emit("ConfirmDlg", {
       messageId: packet.messageId,
       type:
         Object.values(ConfirmDlgType).indexOf(packet.messageId) > -1

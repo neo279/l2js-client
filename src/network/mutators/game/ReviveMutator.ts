@@ -18,6 +18,6 @@ export default class ReviveMutator extends IMMOClientMutator<
       creature.IsDead = false;
     }
 
-    this.fire("Revive", { creature });
+    this.emit("Revive", { creature });
   }
 }

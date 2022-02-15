@@ -7,7 +7,7 @@ export default class NpcQuestHtmlMessageMutator extends IMMOClientMutator<
   NpcQuestHtmlMessage
 > {
   update(packet: NpcQuestHtmlMessage): void {
-    this.fire("NpcQuestHtmlMessage", {
+    this.emit("NpcQuestHtmlMessage", {
       npcObjectId: packet.NpcObjectId,
       html: packet.Html,
       questId: packet.QuestId,

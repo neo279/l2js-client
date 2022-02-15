@@ -7,7 +7,8 @@ export default class CharSelectionInfo extends GameClientPacket {
   // @Override
   readImpl(): boolean {
     const _id = this.readC();
-    const _characterPackages: L2ObjectCollection<L2User> = new L2ObjectCollection();
+    const _characterPackages: L2ObjectCollection<L2User> =
+      new L2ObjectCollection();
 
     const _characterPackagesSize = this.readD();
     const _charMaxNumber = this.readD();

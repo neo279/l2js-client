@@ -20,9 +20,11 @@ export default class NetSocket implements IStream {
       }, this.timeout);
 
       this._socket.setTimeout(0);
-      this._socket.on("error", (err) => reject(err));
+      const errorHandler = (err: Error) => reject(err);
+      this._socket.once("error", errorHandler);
       this._socket.connect(this.port, this.ip, () => {
         clearTimeout(this.timeoutTimer);
+        this._socket.off("error", errorHandler);
         resolve();
       });
     });
@@ -44,12 +46,12 @@ export default class NetSocket implements IStream {
   }
 
   recv(): Promise<Uint8Array> {
-    this._socket.resume();
     return new Promise((resolve) => {
+      this._socket.resume();
       // this._socket.once("error", err => reject(err));
       this._socket.once("data", (data: Uint8Array) => {
-        resolve(data);
         this._socket.pause();
+        resolve(data);
       });
     });
   }

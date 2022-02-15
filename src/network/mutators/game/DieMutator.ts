@@ -14,7 +14,7 @@ export default class DieMutator extends IMMOClientMutator<GameClient, Die> {
         this.Client.BuffsList.clear();
       }
 
-      this.fire("Die", { creature, isSpoiled: packet.Sweepable });
+      this.emit("Die", { creature, isSpoiled: packet.Sweepable });
     }
   }
 }

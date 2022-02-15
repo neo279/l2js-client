@@ -22,13 +22,22 @@ export default class GameClient extends MMOClient {
   private _gameCrypt: GameCrypt = new GameCrypt();
   Config!: MMOConfig;
   ActiveChar: L2User = new L2User();
-  CreaturesList: L2ObjectCollection<L2Creature> = new L2ClientObjectCollection(this);
-  PartyList: L2ClientObjectCollection<L2PartyMember> = new L2ClientObjectCollection(this);
-  DroppedItems: L2ClientObjectCollection<L2DroppedItem> = new L2ClientObjectCollection(this);
-  InventoryItems: L2ClientObjectCollection<L2Item> = new L2ClientObjectCollection(this);
-  SkillsList: L2ClientObjectCollection<L2Skill> = new L2ClientObjectCollection(this);
-  DwarfRecipeBook: L2ClientObjectCollection<L2Recipe> = new L2ClientObjectCollection(this);
-  CommonRecipeBook: L2ClientObjectCollection<L2Recipe> = new L2ClientObjectCollection(this);
+  CreaturesList: L2ObjectCollection<L2Creature> = new L2ClientObjectCollection(
+    this
+  );
+  PartyList: L2ClientObjectCollection<L2PartyMember> =
+    new L2ClientObjectCollection(this);
+  DroppedItems: L2ClientObjectCollection<L2DroppedItem> =
+    new L2ClientObjectCollection(this);
+  InventoryItems: L2ClientObjectCollection<L2Item> =
+    new L2ClientObjectCollection(this);
+  SkillsList: L2ClientObjectCollection<L2Skill> = new L2ClientObjectCollection(
+    this
+  );
+  DwarfRecipeBook: L2ClientObjectCollection<L2Recipe> =
+    new L2ClientObjectCollection(this);
+  CommonRecipeBook: L2ClientObjectCollection<L2Recipe> =
+    new L2ClientObjectCollection(this);
 
   LastConfirmMessageId!: number;
   LastConfirmMessageRequesterId!: number;
@@ -51,7 +60,9 @@ export default class GameClient extends MMOClient {
   }
 
   init(config: MMOConfig, connection?: IConnection): this {
-    this.Connection = connection ?? new MMOConnection(SocketFactory.getSocketAdapter(config), this);
+    this.Connection =
+      connection ??
+      new MMOConnection(SocketFactory.getSocketAdapter(config), this);
 
     this.Config = config;
 
@@ -86,7 +97,7 @@ export default class GameClient extends MMOClient {
 
     this.logger.debug("Sending ", gsp.constructor.name);
     return this.sendRaw(sendable).then(() => {
-      this.fire(`PacketSent:${gsp.constructor.name}`, { packet: gsp });
+      this.emit(`PacketSent:${gsp.constructor.name}`, { packet: gsp });
     });
   }
 }

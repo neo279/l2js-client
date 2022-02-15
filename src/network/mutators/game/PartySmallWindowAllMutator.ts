@@ -11,7 +11,7 @@ export default class PartySmallWindowAllMutator extends IMMOClientMutator<
     packet.PartyMembers.forEach((char) => {
       this.Client.PartyList.add(char);
 
-      this.fire("PartySmallWindow", {
+      this.emit("PartySmallWindow", {
         member: char,
         action: "add-all",
       });
