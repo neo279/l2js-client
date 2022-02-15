@@ -1,13 +1,7 @@
 import GameServerPacket from "./GameServerPacket";
 
 export default class RequestDropItem extends GameServerPacket {
-  constructor(
-    public objectId: number,
-    public count: bigint,
-    public x: number,
-    public y: number,
-    public z: number
-  ) {
+  constructor(public objectId: number, public count: bigint, public x: number, public y: number, public z: number) {
     super();
   }
   write(): void {

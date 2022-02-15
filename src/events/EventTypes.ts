@@ -103,78 +103,28 @@ export declare type EPartySpelled = {
 export declare type OnLoggedIn = ["LoggedIn", (e: ELoggedIn) => void];
 export declare type OnPlayOk = ["PlayOk", () => void];
 export declare type OnLoggedInEvent = ["LoggedIn", () => void];
-export declare type OnPacketReceivedEvent = [
-  "PacketReceived",
-  string,
-  (e: EPacketReceived) => void
-];
-export declare type OnPacketSentEvent = [
-  "PacketSent",
-  string,
-  (e: EPacketSent) => void
-];
-export declare type OnPartyRequestEvent = [
-  "PartyRequest",
-  (e: EPartyRequest) => void
-];
+export declare type OnPacketReceivedEvent = ["PacketReceived", string, (e: EPacketReceived) => void];
+export declare type OnPacketSentEvent = ["PacketSent", string, (e: EPacketSent) => void];
+export declare type OnPartyRequestEvent = ["PartyRequest", (e: EPartyRequest) => void];
 export declare type OnDieEvent = ["Die", (e: EDie) => void];
-export declare type OnTargetSelectedEvent = [
-  "TargetSelected",
-  (e: ETargetSelected) => void
-];
-export declare type OnMyTargetSelectedEvent = [
-  "MyTargetSelected",
-  (e: EMyTargetSelected) => void
-];
+export declare type OnTargetSelectedEvent = ["TargetSelected", (e: ETargetSelected) => void];
+export declare type OnMyTargetSelectedEvent = ["MyTargetSelected", (e: EMyTargetSelected) => void];
 export declare type OnAttackedEvent = ["Attacked", (e: EAttacked) => void];
-export declare type OnRequestedDuelEvent = [
-  "RequestedDuel",
-  (e: ERequestedDuel) => void
-];
-export declare type OnStartMovingEvent = [
-  "StartMoving",
-  (e: EStartMoving) => void
-];
-export declare type OnStopMovingEvent = [
-  "StopMoving",
-  (e: EStopMoving) => void
-];
-export declare type OnCraftResultEvent = [
-  "CraftResult",
-  (e: ECraftResult) => void
-];
-export declare type OnRecipeBookEvent = [
-  "RecipeBook",
-  (e: ERecipeBook) => void
-];
-export declare type OnPartySmallWindow = [
-  "PartySmallWindow",
-  (e: EPartySmallWindow) => void
-];
-export declare type OnPartyMemberPosition = [
-  "PartyMemberPosition",
-  (e: EPartyMemberPosition) => void
-];
+export declare type OnRequestedDuelEvent = ["RequestedDuel", (e: ERequestedDuel) => void];
+export declare type OnStartMovingEvent = ["StartMoving", (e: EStartMoving) => void];
+export declare type OnStopMovingEvent = ["StopMoving", (e: EStopMoving) => void];
+export declare type OnCraftResultEvent = ["CraftResult", (e: ECraftResult) => void];
+export declare type OnRecipeBookEvent = ["RecipeBook", (e: ERecipeBook) => void];
+export declare type OnPartySmallWindow = ["PartySmallWindow", (e: EPartySmallWindow) => void];
+export declare type OnPartyMemberPosition = ["PartyMemberPosition", (e: EPartyMemberPosition) => void];
 export declare type OnCharInfo = ["CharInfo", (e: ECharInfo) => void];
 export declare type OnRevive = ["Revive", (e: ERevive) => void];
 export declare type OnConfirmDlg = ["ConfirmDlg", (e: EConfirmDlg) => void];
-export declare type OnSystemMessage = [
-  "SystemMessage",
-  (e: ESystemMessage) => void
-];
+export declare type OnSystemMessage = ["SystemMessage", (e: ESystemMessage) => void];
 export declare type OnCreatureSay = ["CreatureSay", (e: ECreatureSay) => void];
-export declare type OnNpcHtmlMessage = [
-  "NpcHtmlMessage",
-  (e: ENpcHtmlMessage) => void
-];
-export declare type OnNpcQuestHtmlMessage = [
-  "NpcQuestHtmlMessage",
-  (e: ENpcQuestHtmlMessage) => void
-];
-export declare type OnPartySpelled = [
-  "PartySpelled",
-  (e: EPartySpelled) => void
-];
+export declare type OnNpcHtmlMessage = ["NpcHtmlMessage", (e: ENpcHtmlMessage) => void];
+export declare type OnNpcQuestHtmlMessage = ["NpcQuestHtmlMessage", (e: ENpcQuestHtmlMessage) => void];
+export declare type OnPartySpelled = ["PartySpelled", (e: EPartySpelled) => void];
 
 // prettier-ignore
 export declare type EventHandlerType =

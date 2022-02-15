@@ -4,11 +4,7 @@ import RequestDispel from "../network/outgoing/game/RequestDispel";
 import AbstractGameCommand from "./AbstractGameCommand";
 
 export default class CommandCancelBuff extends AbstractGameCommand {
-  execute(
-    object: L2Character | number,
-    buff: L2Buff | number,
-    level?: number
-  ): void {
+  execute(object: L2Character | number, buff: L2Buff | number, level?: number): void {
     if (object instanceof L2Character) {
       object = object.ObjectId;
     }

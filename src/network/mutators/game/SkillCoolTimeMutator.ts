@@ -2,10 +2,7 @@ import IMMOClientMutator from "../../../mmocore/IMMOClientMutator";
 import GameClient from "../../GameClient";
 import SkillCoolTime from "../../incoming/game/SkillCoolTime";
 
-export default class SkillCoolTimeMutator extends IMMOClientMutator<
-  GameClient,
-  SkillCoolTime
-> {
+export default class SkillCoolTimeMutator extends IMMOClientMutator<GameClient, SkillCoolTime> {
   update(packet: SkillCoolTime): void {
     packet.BuffsList.forEach((row) => {
       const buff = this.Client.BuffsList.getEntryById(row.id);

@@ -3,8 +3,6 @@ import RequestAnswerJoinParty from "../network/outgoing/game/RequestAnswerJoinPa
 
 export default class CommandAcceptJoinParty extends AbstractGameCommand {
   execute(): void {
-    this.GameClient?.sendPacket(
-      new RequestAnswerJoinParty(RequestAnswerJoinParty.ANSWER_ACCEPT)
-    );
+    this.GameClient?.sendPacket(new RequestAnswerJoinParty(RequestAnswerJoinParty.ANSWER_ACCEPT));
   }
 }

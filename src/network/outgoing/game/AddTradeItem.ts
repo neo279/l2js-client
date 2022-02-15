@@ -1,11 +1,7 @@
 import GameServerPacket from "./GameServerPacket";
 
 export default class AddTradeItem extends GameServerPacket {
-  constructor(
-    public tradeId: number,
-    public objectId: number,
-    public count: bigint
-  ) {
+  constructor(public tradeId: number, public objectId: number, public count: bigint) {
     super();
   }
   write(): void {

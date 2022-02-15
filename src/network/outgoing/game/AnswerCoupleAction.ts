@@ -1,11 +1,7 @@
 import GameServerPacket from "./GameServerPacket";
 
 export default class AnswerCoupleAction extends GameServerPacket {
-  constructor(
-    private _actionId: number,
-    private _answer: number,
-    private _charObjId: number
-  ) {
+  constructor(private _actionId: number, private _answer: number, private _charObjId: number) {
     super();
   }
 

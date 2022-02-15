@@ -7,13 +7,4 @@ import PlayFail from "./PlayFail";
 import PlayOk from "./PlayOk";
 import ServerList from "./ServerList";
 
-export {
-  AccountKicked,
-  GGAuth,
-  Init,
-  LoginFail,
-  LoginOk,
-  PlayFail,
-  PlayOk,
-  ServerList,
-};
+export { AccountKicked, GGAuth, Init, LoginFail, LoginOk, PlayFail, PlayOk, ServerList };

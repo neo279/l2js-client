@@ -2,15 +2,10 @@ import IMMOClientMutator from "../../../mmocore/IMMOClientMutator";
 import GameClient from "../../GameClient";
 import MoveToPawn from "../../incoming/game/MoveToPawn";
 
-export default class MoveToPawnMutator extends IMMOClientMutator<
-  GameClient,
-  MoveToPawn
-> {
+export default class MoveToPawnMutator extends IMMOClientMutator<GameClient, MoveToPawn> {
   update(packet: MoveToPawn): void {
     if (packet.CharObjId) {
-      const creature = this.Client.CreaturesList.getEntryByObjectId(
-        packet.CharObjId
-      );
+      const creature = this.Client.CreaturesList.getEntryByObjectId(packet.CharObjId);
       if (creature) {
         const [_x, _y, _z] = packet.Location;
         const [_xDst, _yDst, _zDst] = packet.Destination;

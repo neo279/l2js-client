@@ -1,11 +1,7 @@
 import GameServerPacket from "./GameServerPacket";
 
 export default class MultiSellChoose extends GameServerPacket {
-  constructor(
-    private _listId: number,
-    private _entryId: number,
-    private _amount: bigint
-  ) {
+  constructor(private _listId: number, private _entryId: number, private _amount: bigint) {
     super();
   }
 

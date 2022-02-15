@@ -6,9 +6,7 @@ import MMOClient from "../mmocore/MMOClient";
  * Custom L2Object collection to attach event handlers
  * from items to the Client
  */
-export default class L2ClientObjectCollection<
-  T extends L2Object
-> extends L2ObjectCollection<T> {
+export default class L2ClientObjectCollection<T extends L2Object> extends L2ObjectCollection<T> {
   constructor(private Client: MMOClient) {
     super();
   }

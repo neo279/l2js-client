@@ -15,9 +15,7 @@ export default class TempBan extends GameClientPacket {
         _reason = this.readS();
       }
 
-      this.logger.warn(
-        `Account temporary banned. Char: ${_char}; IP: ${_ip}; Reason: ${_reason}`
-      );
+      this.logger.warn(`Account temporary banned. Char: ${_char}; IP: ${_ip}; Reason: ${_reason}`);
     }
     return true;
   }

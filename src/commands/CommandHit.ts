@@ -10,9 +10,7 @@ export default class CommandHit extends AbstractGameCommand {
     const me = this.GameClient?.ActiveChar;
     if (me) {
       const forceShift = shift ?? false;
-      this.GameClient?.sendPacket(
-        new Action(object, me.X, me.Y, me.Z, forceShift)
-      );
+      this.GameClient?.sendPacket(new Action(object, me.X, me.Y, me.Z, forceShift));
     }
   }
 }

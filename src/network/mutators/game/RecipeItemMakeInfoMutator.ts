@@ -2,10 +2,7 @@ import IMMOClientMutator from "../../../mmocore/IMMOClientMutator";
 import RecipeItemMakeInfo from "../../incoming/game/RecipeItemMakeInfo";
 import GameClient from "../../GameClient";
 
-export default class RecipeItemMakeInfoMutator extends IMMOClientMutator<
-  GameClient,
-  RecipeItemMakeInfo
-> {
+export default class RecipeItemMakeInfoMutator extends IMMOClientMutator<GameClient, RecipeItemMakeInfo> {
   update(packet: RecipeItemMakeInfo): void {
     this.emit("CraftResult", {
       recipeId: packet.RecipeId,

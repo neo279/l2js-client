@@ -8,11 +8,7 @@ export default class CommandAcceptResurrect extends AbstractGameCommand {
       typeof this.GameClient?.LastConfirmMessageRequesterId !== "undefined"
     ) {
       this.GameClient?.sendPacket(
-        new DlgAnswer(
-          this.GameClient.LastConfirmMessageId,
-          1,
-          this.GameClient.LastConfirmMessageRequesterId
-        )
+        new DlgAnswer(this.GameClient.LastConfirmMessageId, 1, this.GameClient.LastConfirmMessageRequesterId)
       );
     }
   }

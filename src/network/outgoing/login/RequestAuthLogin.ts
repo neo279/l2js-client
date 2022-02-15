@@ -3,11 +3,7 @@ import LoginServerPacket from "./LoginServerPacket";
 import { bigToUint8Array, modPow } from "../../../mmocore/BigintArith";
 
 export default class RequestAuthLogin extends LoginServerPacket {
-  constructor(
-    private username: string,
-    private password: string,
-    private session: MMOSession
-  ) {
+  constructor(private username: string, private password: string, private session: MMOSession) {
     super();
   }
 
@@ -22,17 +18,11 @@ export default class RequestAuthLogin extends LoginServerPacket {
 
     const loginInfo: Uint8Array = new Uint8Array(128);
     const hexStr = (buffer: Uint8Array) => {
-      return Array.from(Array.from(buffer), (byte) =>
-        ("0" + (byte & 0xff).toString(16)).slice(-2)
-      ).join("");
+      return Array.from(Array.from(buffer), (byte) => ("0" + (byte & 0xff).toString(16)).slice(-2)).join("");
     };
     loginInfo[0x5b] = 0x24;
-    [...this.username].forEach(
-      (k, i) => (loginInfo[0x5e + i] = k.charCodeAt(0))
-    );
-    [...this.password].forEach(
-      (k, i) => (loginInfo[0x6c + i] = k.charCodeAt(0))
-    );
+    [...this.username].forEach((k, i) => (loginInfo[0x5e + i] = k.charCodeAt(0)));
+    [...this.password].forEach((k, i) => (loginInfo[0x6c + i] = k.charCodeAt(0)));
 
     const e = BigInt(65537);
     const modulus = BigInt(`0x${hexStr(this.session.publicKey)}`);
@@ -67,17 +57,11 @@ export default class RequestAuthLogin extends LoginServerPacket {
         break;
     }
 
-    this.writeB(
-      Uint8Array.from([
-        0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-      ])
-    ); // footer
+    this.writeB(Uint8Array.from([0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])); // footer
     this.writeB(Uint8Array.from(Array(16).fill(0)));
   }
 
   private _hexStr(buffer: Uint8Array) {
-    return Array.from(Array.from(buffer), (byte) =>
-      ("0" + (byte & 0xff).toString(16)).slice(-2)
-    ).join("");
+    return Array.from(Array.from(buffer), (byte) => ("0" + (byte & 0xff).toString(16)).slice(-2)).join("");
   }
 }

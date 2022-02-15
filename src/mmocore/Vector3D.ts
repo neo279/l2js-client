@@ -64,11 +64,7 @@ export default class Vector3D {
   }
 
   divideScalar(s: number): Vector3D {
-    return new Vector3D(
-      this.X === 0 ? 0 : this.X / s,
-      this.Y === 0 ? 0 : this.Y / s,
-      this.Z === 0 ? 0 : this.Z / s
-    );
+    return new Vector3D(this.X === 0 ? 0 : this.X / s, this.Y === 0 ? 0 : this.Y / s, this.Z === 0 ? 0 : this.Z / s);
   }
 
   // -- Comparators
@@ -104,11 +100,7 @@ export default class Vector3D {
   }
 
   cross(b: Vector3D): Vector3D {
-    return new Vector3D(
-      this.Y * b.Z - this.Z * b.Y,
-      this.Z * b.X - this.X * b.Z,
-      this.X * b.Y - this.Y * b.X
-    );
+    return new Vector3D(this.Y * b.Z - this.Z * b.Y, this.Z * b.X - this.X * b.Z, this.X * b.Y - this.Y * b.X);
   }
 
   distance(b: Vector3D): number {
@@ -120,11 +112,7 @@ export default class Vector3D {
   }
 
   negate(): Vector3D {
-    return new Vector3D(
-      -1 * Math.abs(this.X),
-      -1 * Math.abs(this.Y),
-      -1 * Math.abs(this.Z)
-    );
+    return new Vector3D(-1 * Math.abs(this.X), -1 * Math.abs(this.Y), -1 * Math.abs(this.Z));
   }
 
   abs(): Vector3D {
@@ -142,18 +130,10 @@ export default class Vector3D {
   // -- Static Functions
 
   static max(a: Vector3D, b: Vector3D): Vector3D {
-    return new Vector3D(
-      a.X > b.X ? a.X : b.X,
-      a.Y > b.Y ? a.Y : b.Y,
-      a.Z > b.Z ? a.Z : b.Z
-    );
+    return new Vector3D(a.X > b.X ? a.X : b.X, a.Y > b.Y ? a.Y : b.Y, a.Z > b.Z ? a.Z : b.Z);
   }
 
   static min(a: Vector3D, b: Vector3D): Vector3D {
-    return new Vector3D(
-      a.X < b.X ? a.X : b.X,
-      a.Y < b.Y ? a.Y : b.Y,
-      a.Z < b.Z ? a.Z : b.Z
-    );
+    return new Vector3D(a.X < b.X ? a.X : b.X, a.Y < b.Y ? a.Y : b.Y, a.Z < b.Z ? a.Z : b.Z);
   }
 }

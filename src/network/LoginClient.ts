@@ -39,9 +39,7 @@ export default class LoginClient extends MMOClient {
   }
 
   init(config: MMOConfig, connection?: IConnection): this {
-    this.Connection =
-      connection ??
-      new MMOConnection(SocketFactory.getSocketAdapter(config), this);
+    this.Connection = connection ?? new MMOConnection(SocketFactory.getSocketAdapter(config), this);
 
     this.Config = config;
 

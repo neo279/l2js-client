@@ -1,9 +1,7 @@
 import GameServerPacket from "./GameServerPacket";
 
 export default class ProtocolVersion extends GameServerPacket {
-  constructor(
-    public protocolVersion: number = 273 /** use value=-2 in order to "ping" */
-  ) {
+  constructor(public protocolVersion: number = 273 /** use value=-2 in order to "ping" */) {
     super();
   }
 

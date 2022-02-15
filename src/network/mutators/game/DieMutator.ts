@@ -4,9 +4,7 @@ import Die from "../../incoming/game/Die";
 
 export default class DieMutator extends IMMOClientMutator<GameClient, Die> {
   update(packet: Die): void {
-    const creature = this.Client.CreaturesList.getEntryByObjectId(
-      packet.CharObjId
-    );
+    const creature = this.Client.CreaturesList.getEntryByObjectId(packet.CharObjId);
     if (creature) {
       creature.Target = null;
       creature.IsDead = true;

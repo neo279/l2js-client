@@ -7,13 +7,9 @@ export default class CommandMoveTo extends AbstractGameCommand {
     const char = this.GameClient?.ActiveChar;
 
     if (char) {
-      this.GameClient?.sendPacket(
-        new MoveBackwardToLocation(x, y, z, char.X, char.Y, char.Z)
-      );
+      this.GameClient?.sendPacket(new MoveBackwardToLocation(x, y, z, char.X, char.Y, char.Z));
 
-      this.GameClient?.sendPacket(
-        new ValidatePosition(char.X, char.Y, char.Z, char.Heading, 0)
-      );
+      this.GameClient?.sendPacket(new ValidatePosition(char.X, char.Y, char.Z, char.Heading, 0));
     }
   }
 }

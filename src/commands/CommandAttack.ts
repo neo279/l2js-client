@@ -10,9 +10,7 @@ export default class CommandAttack extends AbstractGameCommand {
     const me = this.GameClient?.ActiveChar;
     if (me) {
       const forceShift = shift ?? false;
-      this.GameClient?.sendPacket(
-        new AttackRequest(object, me.X, me.Y, me.Z, forceShift)
-      );
+      this.GameClient?.sendPacket(new AttackRequest(object, me.X, me.Y, me.Z, forceShift));
     }
   }
 }

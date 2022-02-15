@@ -38,8 +38,7 @@ export default class L2Item extends L2Object {
   static readonly SLOT_BABYPET: number = -103;
   static readonly SLOT_GREATWOLF: number = -104;
 
-  static readonly SLOT_MULTI_ALLWEAPON =
-    L2Item.SLOT_LR_HAND | L2Item.SLOT_R_HAND;
+  static readonly SLOT_MULTI_ALLWEAPON = L2Item.SLOT_LR_HAND | L2Item.SLOT_R_HAND;
 
   private _attackElementType!: Element;
   private _attackElementVal!: number;

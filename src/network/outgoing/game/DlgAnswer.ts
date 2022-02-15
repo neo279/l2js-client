@@ -1,11 +1,7 @@
 import GameServerPacket from "./GameServerPacket";
 
 export default class DlgAnswer extends GameServerPacket {
-  constructor(
-    private _messageId: number,
-    private _answer: number,
-    private _requesterId: number
-  ) {
+  constructor(private _messageId: number, private _answer: number, private _requesterId: number) {
     super();
   }
 

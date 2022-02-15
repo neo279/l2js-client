@@ -26,11 +26,7 @@ export default class Say2 extends GameServerPacket {
   static readonly NPC_ALL: number = 22;
   static readonly NPC_SHOUT: number = 23;
 
-  constructor(
-    public type: number,
-    public text: string,
-    public target?: string
-  ) {
+  constructor(public type: number, public text: string, public target?: string) {
     super();
   }
 

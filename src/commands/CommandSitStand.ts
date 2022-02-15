@@ -4,8 +4,6 @@ import AbstractGameCommand from "./AbstractGameCommand";
 
 export default class CommandSitStand extends AbstractGameCommand {
   execute(): void {
-    this.GameClient?.sendPacket(
-      new RequestActionUse(Actions.SIT_STAND, false, false)
-    );
+    this.GameClient?.sendPacket(new RequestActionUse(Actions.SIT_STAND, false, false));
   }
 }

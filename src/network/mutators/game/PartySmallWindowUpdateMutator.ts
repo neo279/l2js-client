@@ -2,14 +2,9 @@ import IMMOClientMutator from "../../../mmocore/IMMOClientMutator";
 import GameClient from "../../GameClient";
 import PartySmallWindowUpdate from "../../incoming/game/PartySmallWindowUpdate";
 
-export default class PartySmallWindowUpdateMutator extends IMMOClientMutator<
-  GameClient,
-  PartySmallWindowUpdate
-> {
+export default class PartySmallWindowUpdateMutator extends IMMOClientMutator<GameClient, PartySmallWindowUpdate> {
   update(packet: PartySmallWindowUpdate): void {
-    const char = this.Client.PartyList.getEntryByObjectId(
-      packet.PartyMember.ObjectId
-    );
+    const char = this.Client.PartyList.getEntryByObjectId(packet.PartyMember.ObjectId);
 
     if (char) {
       char.Name = packet.PartyMember.Name;

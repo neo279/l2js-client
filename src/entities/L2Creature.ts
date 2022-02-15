@@ -426,15 +426,7 @@ export default abstract class L2Creature extends L2Object {
 
   private _moveInterval!: ReturnType<typeof setInterval> | null;
 
-  public setMovingTo(
-    x: number,
-    y: number,
-    z: number,
-    dx: number,
-    dy: number,
-    dz: number,
-    heading?: number
-  ): void {
+  public setMovingTo(x: number, y: number, z: number, dx: number, dy: number, dz: number, heading?: number): void {
     if (this._moveInterval) {
       clearInterval(this._moveInterval);
 

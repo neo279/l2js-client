@@ -22,8 +22,7 @@ export default class PartySmallWindowAdd extends GameClientPacket {
     this.PartyMember.MaxMp = this.readD();
     this.PartyMember.Level = this.readD();
     this.PartyMember.ClassId = this.readD();
-    this.PartyMember.IsPartyLeader =
-      this.PartyMember.ObjectId === _leaderObjectId;
+    this.PartyMember.IsPartyLeader = this.PartyMember.ObjectId === _leaderObjectId;
     this.PartyMember.IsDead = this.PartyMember.Hp <= 0;
 
     const _pad1 = this.readD();

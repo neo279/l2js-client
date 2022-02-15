@@ -273,26 +273,10 @@ export default class BlowfishEngine {
      */
 
     this.processTable(0, 0, this.P);
-    this.processTable(
-      this.P[BlowfishEngine.P_SZ - 2],
-      this.P[BlowfishEngine.P_SZ - 1],
-      this.S0
-    );
-    this.processTable(
-      this.S0[BlowfishEngine.SBOX_SK - 2],
-      this.S0[BlowfishEngine.SBOX_SK - 1],
-      this.S1
-    );
-    this.processTable(
-      this.S1[BlowfishEngine.SBOX_SK - 2],
-      this.S1[BlowfishEngine.SBOX_SK - 1],
-      this.S2
-    );
-    this.processTable(
-      this.S2[BlowfishEngine.SBOX_SK - 2],
-      this.S2[BlowfishEngine.SBOX_SK - 1],
-      this.S3
-    );
+    this.processTable(this.P[BlowfishEngine.P_SZ - 2], this.P[BlowfishEngine.P_SZ - 1], this.S0);
+    this.processTable(this.S0[BlowfishEngine.SBOX_SK - 2], this.S0[BlowfishEngine.SBOX_SK - 1], this.S1);
+    this.processTable(this.S1[BlowfishEngine.SBOX_SK - 2], this.S1[BlowfishEngine.SBOX_SK - 1], this.S2);
+    this.processTable(this.S2[BlowfishEngine.SBOX_SK - 2], this.S2[BlowfishEngine.SBOX_SK - 1], this.S3);
   }
 
   processTable(xl: number, xr: number, table: number[]): void {
@@ -323,23 +307,14 @@ export default class BlowfishEngine {
    * @param x
    */
   F(x: number): number {
-    return (
-      ((this.S0[x >>> 24] + this.S1[(x >>> 16) & 0xff]) ^
-        this.S2[(x >>> 8) & 0xff]) +
-      this.S3[x & 0xff]
-    );
+    return ((this.S0[x >>> 24] + this.S1[(x >>> 16) & 0xff]) ^ this.S2[(x >>> 8) & 0xff]) + this.S3[x & 0xff];
   }
 
   getBlockSize(): number {
     return BlowfishEngine.BLOCK_SIZE;
   }
 
-  encryptBlock(
-    src: Uint8Array,
-    srcIndex: number,
-    dst: Uint8Array,
-    dstIndex: number
-  ): void {
+  encryptBlock(src: Uint8Array, srcIndex: number, dst: Uint8Array, dstIndex: number): void {
     let xl: number = this.bytesTo32Bits(src, srcIndex);
     let xr: number = this.bytesTo32Bits(src, srcIndex + 4);
     xl ^= this.P[0];
@@ -352,12 +327,7 @@ export default class BlowfishEngine {
     this.bits32ToBytes(xl, dst, dstIndex + 4);
   }
 
-  decryptBlock(
-    src: Uint8Array,
-    srcIndex: number,
-    dst: Uint8Array,
-    dstIndex: number
-  ): void {
+  decryptBlock(src: Uint8Array, srcIndex: number, dst: Uint8Array, dstIndex: number): void {
     let xl = this.bytesTo32Bits(src, srcIndex);
     let xr = this.bytesTo32Bits(src, srcIndex + 4);
     xl ^= this.P[BlowfishEngine.ROUNDS + 1];
@@ -385,10 +355,7 @@ export default class BlowfishEngine {
 
   bytesTo32Bits(b: Uint8Array, i: number): number {
     return this.signedToUnsigned(
-      ((b[i + 3] & 0xff) << 24) |
-        ((b[i + 2] & 0xff) << 16) |
-        ((b[i + 1] & 0xff) << 8) |
-        (b[i] & 0xff)
+      ((b[i + 3] & 0xff) << 24) | ((b[i + 2] & 0xff) << 16) | ((b[i + 1] & 0xff) << 8) | (b[i] & 0xff)
     );
   }
 

@@ -8,13 +8,7 @@ export default class AttackRequest extends GameServerPacket {
 
   private _shift = false;
 
-  constructor(
-    objectId: number,
-    originX: number,
-    originY: number,
-    originZ: number,
-    shift?: boolean
-  ) {
+  constructor(objectId: number, originX: number, originY: number, originZ: number, shift?: boolean) {
     super();
     this._objectId = objectId;
     this._originX = originX;

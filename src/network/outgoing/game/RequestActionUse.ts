@@ -1,11 +1,7 @@
 import GameServerPacket from "./GameServerPacket";
 
 export default class RequestActionUse extends GameServerPacket {
-  constructor(
-    public actionId: number,
-    public ctrlPressed: boolean,
-    public shiftPressed: boolean
-  ) {
+  constructor(public actionId: number, public ctrlPressed: boolean, public shiftPressed: boolean) {
     super();
   }
 

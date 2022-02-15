@@ -10,10 +10,7 @@ import IMMOClientMutator from "./IMMOClientMutator";
 import AbstractPacket from "./AbstractPacket";
 import MMOConfig from "./MMOConfig";
 
-export default abstract class MMOClient
-  extends EventEmitter
-  implements IProcessable
-{
+export default abstract class MMOClient extends EventEmitter implements IProcessable {
   protected logger: Logger = Logger.getLogger(this.constructor.name);
 
   abstract init(config: MMOConfig, connection?: IConnection): this;
@@ -45,11 +42,7 @@ export default abstract class MMOClient
   private _mutate(packet: AbstractPacket): void {
     if (packet.constructor.name in this._mts) {
       this._mts[packet.constructor.name].forEach((m) => {
-        this.logger.debug(
-          "Mutating",
-          this.constructor.name,
-          m.constructor.name
-        );
+        this.logger.debug("Mutating", this.constructor.name, m.constructor.name);
         try {
           m.update(packet);
         } catch (e) {
@@ -105,10 +98,7 @@ export default abstract class MMOClient
         const packetData = new Uint8Array(data.slice(i + 2, i + packetLength)); // +2 is for skipping the packet size
         this.decrypt(packetData, 0, packetData.byteLength);
 
-        const rcp: ReceivablePacket = this.PacketHandler.handlePacket(
-          packetData,
-          this
-        );
+        const rcp: ReceivablePacket = this.PacketHandler.handlePacket(packetData, this);
         if (rcp && rcp.read()) {
           this.logger.debug("Received", rcp.constructor.name);
           this._mutate(rcp);
@@ -126,26 +116,20 @@ export default abstract class MMOClient
   }
 
   sendRaw(raw: Uint8Array): Promise<void> {
-    return this.Connection.write(raw).catch((error) =>
-      this.logger.error(error)
-    );
+    return this.Connection.write(raw).catch((error) => this.logger.error(error));
   }
 
   hexString(data: Uint8Array): string {
     return (
       " ".repeat(7) +
-      Array.from(new Array(16), (n, v) =>
-        ("0" + (v & 0xff).toString(16)).slice(-2).toUpperCase()
-      ).join(" ") +
+      Array.from(new Array(16), (n, v) => ("0" + (v & 0xff).toString(16)).slice(-2).toUpperCase()).join(" ") +
       "\r\n" +
       "=".repeat(54) +
       "\r\n" +
       Array.from(Array.from(data), (byte, k) => {
         return (
           (k % 16 === 0
-            ? ("00000" + ((Math.ceil(k / 16) * 16) & 0xffff).toString(16))
-                .slice(-5)
-                .toUpperCase() + "  "
+            ? ("00000" + ((Math.ceil(k / 16) * 16) & 0xffff).toString(16)).slice(-5).toUpperCase() + "  "
             : "") +
           ("0" + (byte & 0xff).toString(16)).slice(-2) +
           ((k + 1) % 16 === 0 ? "\r\n" : " ")

@@ -88,9 +88,7 @@ export default abstract class L2Object extends EventEmmiter {
   }
 
   public calculateDistance(obj: L2Object): number {
-    this.Distance = Math.sqrt(
-      (this.X - obj.X) * (this.X - obj.X) + (this.Y - obj.Y) * (this.Y - obj.Y)
-    );
+    this.Distance = Math.sqrt((this.X - obj.X) * (this.X - obj.X) + (this.Y - obj.Y) * (this.Y - obj.Y));
     return Math.floor(this.Distance);
   }
 }

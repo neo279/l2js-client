@@ -4,15 +4,10 @@ import StatusUpdate from "../../incoming/game/StatusUpdate";
 
 import L2User from "../../../entities/L2User";
 
-export default class StatusUpdateMutator extends IMMOClientMutator<
-  GameClient,
-  StatusUpdate
-> {
+export default class StatusUpdateMutator extends IMMOClientMutator<GameClient, StatusUpdate> {
   update(packet: StatusUpdate): void {
     if (packet.ObjectId) {
-      const char = this.Client.CreaturesList.getEntryByObjectId(
-        packet.ObjectId
-      );
+      const char = this.Client.CreaturesList.getEntryByObjectId(packet.ObjectId);
 
       Object.keys(packet.Stats).forEach((key) => {
         const status: number = parseInt(key, 10);

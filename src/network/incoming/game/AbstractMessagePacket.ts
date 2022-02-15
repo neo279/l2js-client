@@ -51,23 +51,14 @@ export default abstract class AbstractMessagePacket extends GameClientPacket {
           break;
 
         case AbstractMessagePacket.TYPE_SKILL_NAME:
-          this.messageParams.push([
-            /** SkillId */ this.readD(),
-            /** SkillLevel */ this.readD(),
-          ]);
+          this.messageParams.push([/** SkillId */ this.readD(), /** SkillLevel */ this.readD()]);
           break;
 
         case AbstractMessagePacket.TYPE_ZONE_NAME:
-          this.messageParams.push([
-            /** x */ this.readD(),
-            /** y */ this.readD(),
-            /** z */ this.readD(),
-          ]);
+          this.messageParams.push([/** x */ this.readD(), /** y */ this.readD(), /** z */ this.readD()]);
           break;
         default:
-          this.logger.warn(
-            "Unknown message packet type: " + _paramType.toString(16)
-          );
+          this.logger.warn("Unknown message packet type: " + _paramType.toString(16));
           return;
       }
     }
