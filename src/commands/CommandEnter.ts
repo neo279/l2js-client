@@ -88,8 +88,7 @@ export default class CommandEnter extends AbstractGameCommand {
               .then(() => this.GameClient.sendPacket(new EnterWorld()))
               .catch((e) => reject("Enter world fail." + e));
           });
-
-          this.GameClient.on("PacketReceived:SystemMessage", (e: EPacketReceived) => {
+          this.GameClient.once("PacketReceived:SystemMessage", (e: EPacketReceived) => {
             if ((e.packet as SystemMessage).messageId === 34 /** WELCOME_TO_LINEAGE */) {
               const param = {
                 login: this.LoginClient,
@@ -98,19 +97,6 @@ export default class CommandEnter extends AbstractGameCommand {
               this.GameClient.emit("LoggedIn", param);
               resolve(param);
             }
-          });
-
-          this.GameClient.on("PacketReceived:TeleportToLocation", () => {
-            this.GameClient.sendPacket(new Appearing());
-            this.GameClient.sendPacket(
-              new ValidatePosition(
-                this.GameClient.ActiveChar.X,
-                this.GameClient.ActiveChar.Y,
-                this.GameClient.ActiveChar.Z,
-                this.GameClient.ActiveChar.Heading,
-                0
-              )
-            );
           });
         })
         .catch((e) => reject(e));
