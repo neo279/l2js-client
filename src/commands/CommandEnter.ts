@@ -48,21 +48,21 @@ export default class CommandEnter extends AbstractGameCommand {
     try {
       await Promise.race([...fail, once(this.LoginClient, 'PacketReceived:Init', { signal: abort.signal })])
 
-      this.LoginClient.sendPacket(new AuthGameGuard(this.LoginClient.Session.sessionId))
+      await this.LoginClient.sendPacket(new AuthGameGuard(this.LoginClient.Session.sessionId))
 
       await Promise.race([...fail, once(this.LoginClient, 'PacketReceived:GGAuth', { signal: abort.signal })])
 
-      this.LoginClient.sendPacket(
+      await this.LoginClient.sendPacket(
         new RequestAuthLogin(this._config.Username, this._config.Password, this.LoginClient.Session)
       )
 
       await Promise.race([...fail, once(this.LoginClient, 'PacketReceived:LoginOk', { signal: abort.signal })])
 
-      this.LoginClient.sendPacket(new RequestServerList(this.LoginClient.Session))
+      await this.LoginClient.sendPacket(new RequestServerList(this.LoginClient.Session))
 
       const [serverList] = await once(this.LoginClient, 'PacketReceived:ServerList', { signal: abort.signal }) as unknown as [EPacketReceived]
 
-      this.LoginClient.sendPacket(
+      await this.LoginClient.sendPacket(
         new RequestServerLogin(
           this.LoginClient.Session,
           this.LoginClient.ServerId ?? (serverList.packet as ServerList).LastServerId
@@ -75,7 +75,7 @@ export default class CommandEnter extends AbstractGameCommand {
       abort.abort();
       abort = new AbortController();
 
-      this.LoginClient.Connection.close();
+      this.LoginClient.disconnect();
       this.LoginClient.removeAllListeners();
 
       const gameConfig = {
@@ -90,18 +90,18 @@ export default class CommandEnter extends AbstractGameCommand {
       this.GameClient.init(gameConfig as MMOConfig);
       await this.GameClient.connect();
 
-      this.GameClient.sendPacket(new ProtocolVersion());
+      await this.GameClient.sendPacket(new ProtocolVersion());
 
       await once(this.GameClient, 'PacketReceived:KeyPacket', { signal: abort.signal });
 
-      this.GameClient.sendPacket(new AuthLogin(this.GameClient.Session))
+      await this.GameClient.sendPacket(new AuthLogin(this.GameClient.Session))
 
       await once(this.GameClient, 'PacketReceived:CharSelectionInfo', { signal: abort.signal });
-      this.GameClient.sendPacket(new CharacterSelect(this.GameClient.Config.CharSlotIndex ?? 0))
+      await this.GameClient.sendPacket(new CharacterSelect(this.GameClient.Config.CharSlotIndex ?? 0))
 
       await once(this.GameClient, 'PacketReceived:CharSelected', { signal: abort.signal });
-      this.GameClient.sendPacket(new RequestKeyMapping())
-      this.GameClient.sendPacket(new EnterWorld())
+      await this.GameClient.sendPacket(new RequestKeyMapping())
+      await this.GameClient.sendPacket(new EnterWorld())
 
       for await (const [e] of on(this.GameClient, "PacketReceived:SystemMessage", { signal: abort.signal })) {
         if ((e.packet as SystemMessage).messageId === 34 /** WELCOME_TO_LINEAGE */) {
@@ -110,6 +110,8 @@ export default class CommandEnter extends AbstractGameCommand {
         }
       }
     } catch (err) {
+      this.LoginClient.disconnect();
+      this.GameClient.disconnect();
       abort.abort();
       throw err
     }

@@ -1,6 +1,8 @@
 import * as net from "net";
 import IStream from "../../mmocore/IStream";
 
+import { once } from 'events';
+
 export default class NetSocket implements IStream {
   private _socket!: net.Socket;
 
@@ -10,65 +12,42 @@ export default class NetSocket implements IStream {
 
   constructor(private ip: string, private port: number) {}
 
-  connect(): Promise<void> {
+  async connect(): Promise<void> {
     this._socket = new net.Socket();
-    return new Promise((resolve, reject) => {
-      this.timeoutTimer = setTimeout(() => {
-        this._socket.end();
-        this._socket.destroy();
-        reject("Socket timeout");
-      }, this.timeout);
-
-      this._socket.setTimeout(0);
-      const errorHandler = (err: Error) => reject(err);
-      this._socket.once("error", errorHandler);
-      this._socket.connect(this.port, this.ip, () => {
-        clearTimeout(this.timeoutTimer);
-        this._socket.off("error", errorHandler);
-        resolve();
-      });
-    });
+    this._socket.setTimeout(0);
+    this._socket.connect(this.port, this.ip);
+    const abort = new AbortController();
+    const abortTimeout = setTimeout(() => abort.abort(), this.timeout);
+    await once(this._socket, 'ready', { signal: abort.signal });
+    clearTimeout(abortTimeout);
   }
 
-  send(bytes: Uint8Array): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (!this._socket.destroyed) {
-        // this._socket.once("error", (err) => reject(err));
-        if (this._socket.write(bytes)) {
-          resolve();
-        } else {
-          reject("Data not sent");
-        }
-      } else {
-        reject("Connection is closed");
-      }
-    });
+  async send(bytes: Uint8Array): Promise<void> {
+    if (this._socket.write(bytes)) {
+      return;
+    }
+
+    await once(this._socket, 'drain');
   }
 
-  recv(): Promise<Uint8Array> {
-    return new Promise((resolve) => {
-      this._socket.resume();
-      // this._socket.once("error", err => reject(err));
-      this._socket.once("data", (data: Uint8Array) => {
-        this._socket.pause();
-        resolve(data);
-      });
-    });
+  async recv(): Promise<Uint8Array> {
+    this._socket.resume();
+    const [data] = await once(this._socket, 'data');
+    this._socket.pause();
+    return data;
   }
 
-  close(): Promise<void> {
-    return new Promise((resolve, reject) => {
-      if (!this._socket.destroyed) {
-        this._socket.once("close", (err) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve();
-          }
-        });
-        this._socket.destroy();
-      }
-    });
+  async close(): Promise<void> {
+    const abort = new AbortController();
+    this._socket.end();
+    const abortTimeout = setTimeout(() => abort.abort(), this.timeout);
+    try {
+      await once(this._socket, 'close', { signal: abort.signal });
+      clearTimeout(abortTimeout);
+    } catch (err) {
+      console.log('must kill')
+      this._socket.destroy();
+    }
   }
 
   toString(): string {

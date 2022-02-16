@@ -63,6 +63,10 @@ export default abstract class MMOClient extends EventEmitter implements IProcess
     return this.Connection.connect();
   }
 
+  async disconnect(): Promise<void> {
+    return this.Connection?.close();
+  }
+
   process(raw: Uint8Array): Promise<ReceivablePacket[]> {
     return new Promise((resolve, reject) => {
       const packets = [];
@@ -78,20 +82,20 @@ export default abstract class MMOClient extends EventEmitter implements IProcess
       while (i < data.byteLength) {
         if (data.byteLength < 2) {
           this._buffer = data.slice(i);
-          reject("Incomplete packet, cannot read length");
+          reject(new Error("Incomplete packet, cannot read length"));
           return;
         }
 
         const packetLength = data[i] + (data[i + 1] << 8);
 
         if (packetLength <= 2) {
-          reject("Incorrect packet");
+          reject(new Error("Incorrect packet"));
           return;
         }
 
         if (i + packetLength > data.byteLength) {
           this._buffer = data.slice(i);
-          reject("Incomplete packet!!!" + data[i] + data[i + 1]);
+          reject(new Error("Incomplete packet!!!" + data[i] + data[i + 1]));
           return;
         }
 
@@ -116,7 +120,7 @@ export default abstract class MMOClient extends EventEmitter implements IProcess
   }
 
   sendRaw(raw: Uint8Array): Promise<void> {
-    return this.Connection.write(raw).catch((error) => this.logger.error(error));
+    return this.Connection.write(raw);
   }
 
   hexString(data: Uint8Array): string {
