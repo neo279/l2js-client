@@ -22,7 +22,7 @@ export default interface ClientCommands {
    * Send a general message
    * @param text
    */
-  say(text: string): void;
+  say(text: string): Promise<void>;
   /**
    * Shout a message
    * @param text
@@ -178,6 +178,7 @@ export default abstract class ClientCommands {
   GameClient = new GameClient();
 
   protected commands: Record<string, ICommand> = commands;
+
   constructor() {
     return new Proxy<ClientCommands>(this, {
       get(target: ClientCommands, propertyKey: string, receiver: any) {

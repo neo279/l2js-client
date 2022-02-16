@@ -27,7 +27,11 @@ export default class NetSocket implements IStream {
       return;
     }
 
-    await once(this._socket, 'drain');
+    // Check if we are trying to write into closed socket.
+    // This should not be necessary, but it seems that "once" below would wait forewer
+    if (this._socket.destroyed) throw new Error('Cannot write to the socket as it was destroyed.')
+
+    await once(this._socket, 'drain')
   }
 
   async recv(): Promise<Uint8Array> {
@@ -45,8 +49,8 @@ export default class NetSocket implements IStream {
       await once(this._socket, 'close', { signal: abort.signal });
       clearTimeout(abortTimeout);
     } catch (err) {
-      console.log('must kill')
       this._socket.destroy();
+      await once(this._socket, 'close'); // Not tested
     }
   }
 

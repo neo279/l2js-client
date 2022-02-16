@@ -9,5 +9,5 @@ export default abstract class AbstractGameCommand implements ICommand {
   constructor(public LoginClient: LoginClient, public GameClient: GameClient) {}
 
   // @Override
-  abstract execute(...args: any[]): void;
+  abstract execute(...args: any[]): any;
 }
