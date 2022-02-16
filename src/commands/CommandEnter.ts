@@ -19,87 +19,107 @@ import RequestAuthLogin from "../network/outgoing/login/RequestAuthLogin";
 import RequestServerList from "../network/outgoing/login/RequestServerList";
 import RequestServerLogin from "../network/outgoing/login/RequestServerLogin";
 import AbstractGameCommand from "./AbstractGameCommand";
+import Logger from '../mmocore/Logger';
+
+import { once, on } from 'events';
 
 export default class CommandEnter extends AbstractGameCommand {
   protected _config: MMOConfig = new MMOConfig();
 
-  execute(config?: MMOConfig | Record<string, unknown>): Promise<{ login: LoginClient; game: GameClient }> {
+  async execute(config?: MMOConfig | Record<string, unknown>): Promise<{ login: LoginClient; game: GameClient }> {
     if (config) {
       this._config = { ...new MMOConfig(), ...(config as MMOConfig) };
     }
 
-    return new Promise((resolve, reject) => {
-      this.LoginClient.init(this._config);
-      this.LoginClient.connect()
-        .then(() => {
-          this.LoginClient.once("PacketReceived:PlayFail", (e: EPacketReceived) => {
-            reject((e.packet as PlayFail).FailReason);
-          });
-          this.LoginClient.once("PacketReceived:LoginFail", (e: EPacketReceived) => {
-            reject((e.packet as LoginFail).FailReason);
-          });
-          this.LoginClient.once("PacketReceived:Init", () =>
-            this.LoginClient.sendPacket(new AuthGameGuard(this.LoginClient.Session.sessionId))
-          );
-          this.LoginClient.once("PacketReceived:GGAuth", () =>
-            this.LoginClient.sendPacket(
-              new RequestAuthLogin(this._config.Username, this._config.Password, this.LoginClient.Session)
-            )
-          );
-          this.LoginClient.once("PacketReceived:LoginOk", () =>
-            this.LoginClient.sendPacket(new RequestServerList(this.LoginClient.Session))
-          );
-          this.LoginClient.once("PacketReceived:ServerList", (e: EPacketReceived) => {
-            this.LoginClient.sendPacket(
-              new RequestServerLogin(
-                this.LoginClient.Session,
-                this.LoginClient.ServerId ?? (e.packet as ServerList).LastServerId
-              )
-            );
-          });
-          this.LoginClient.once("PacketReceived:PlayOk", () => {
-            setTimeout(() => {
-              this.LoginClient.Connection.close();
-              this.LoginClient.removeAllListeners();
-              // this.LoginClient = null;
-            }, 0);
-            const gameConfig = {
-              ...this._config,
-              ...{
-                Ip: this.LoginClient.Session.server.host,
-                Port: this.LoginClient.Session.server.port,
-              },
-            };
-            this.GameClient.Session = this.LoginClient.Session;
-            this.GameClient.init(gameConfig as MMOConfig);
-            this.GameClient.connect()
-              .then(() => this.GameClient.sendPacket(new ProtocolVersion()))
-              .catch((e) => reject(e));
-          });
-          this.GameClient.once("PacketReceived:KeyPacket", () =>
-            this.GameClient.sendPacket(new AuthLogin(this.GameClient.Session))
-          );
-          this.GameClient.once("PacketReceived:CharSelectionInfo", () =>
-            this.GameClient.sendPacket(new CharacterSelect(this.GameClient.Config.CharSlotIndex ?? 0))
-          );
-          this.GameClient.once("PacketReceived:CharSelected", () => {
-            this.GameClient.sendPacket(new RequestManorList())
-              .then(() => this.GameClient.sendPacket(new RequestKeyMapping()))
-              .then(() => this.GameClient.sendPacket(new EnterWorld()))
-              .catch((e) => reject("Enter world fail." + e));
-          });
-          this.GameClient.once("PacketReceived:SystemMessage", (e: EPacketReceived) => {
-            if ((e.packet as SystemMessage).messageId === 34 /** WELCOME_TO_LINEAGE */) {
-              const param = {
-                login: this.LoginClient,
-                game: this.GameClient,
-              };
-              this.GameClient.emit("LoggedIn", param);
-              resolve(param);
-            }
-          });
-        })
-        .catch((e) => reject(e));
-    });
+    let abort = new AbortController();
+
+    this.LoginClient.init(this._config);
+    await this.LoginClient.connect()
+
+    const fail = [
+      once(this.LoginClient, "PacketReceived:PlayFail", { signal: abort.signal }).then(() => {
+        throw Error('PlayFail')
+      }),
+      once(this.LoginClient, "PacketReceived:LoginFail", { signal: abort.signal }).then(() => {
+        throw Error('LoginFail')
+      })
+    ]
+
+    try {
+      await Promise.race([...fail, once(this.LoginClient, 'PacketReceived:Init', { signal: abort.signal })])
+
+      this.LoginClient.sendPacket(new AuthGameGuard(this.LoginClient.Session.sessionId))
+
+      await Promise.race([...fail, once(this.LoginClient, 'PacketReceived:GGAuth', { signal: abort.signal })])
+
+      this.LoginClient.sendPacket(
+        new RequestAuthLogin(this._config.Username, this._config.Password, this.LoginClient.Session)
+      )
+
+      await Promise.race([...fail, once(this.LoginClient, 'PacketReceived:LoginOk', { signal: abort.signal })])
+
+      this.LoginClient.sendPacket(new RequestServerList(this.LoginClient.Session))
+
+      const [serverList] = await once(this.LoginClient, 'PacketReceived:ServerList', { signal: abort.signal }) as unknown as [EPacketReceived]
+
+      this.LoginClient.sendPacket(
+        new RequestServerLogin(
+          this.LoginClient.Session,
+          this.LoginClient.ServerId ?? (serverList.packet as ServerList).LastServerId
+        )
+      );
+
+      await Promise.race([...fail, once(this.LoginClient, 'PacketReceived:PlayOk', { signal: abort.signal })])
+
+      // We are done with login client, reset abort controller as we would receive warning for too many event handlers attached
+      abort.abort();
+      abort = new AbortController();
+
+      this.LoginClient.Connection.close();
+      this.LoginClient.removeAllListeners();
+
+      const gameConfig = {
+        ...this._config,
+        ...{
+          Ip: this.LoginClient.Session.server.host,
+          Port: this.LoginClient.Session.server.port,
+        },
+      };
+
+      this.GameClient.Session = this.LoginClient.Session;
+      this.GameClient.init(gameConfig as MMOConfig);
+      await this.GameClient.connect();
+
+      this.GameClient.sendPacket(new ProtocolVersion());
+
+      await once(this.GameClient, 'PacketReceived:KeyPacket', { signal: abort.signal });
+
+      this.GameClient.sendPacket(new AuthLogin(this.GameClient.Session))
+
+      await once(this.GameClient, 'PacketReceived:CharSelectionInfo', { signal: abort.signal });
+      this.GameClient.sendPacket(new CharacterSelect(this.GameClient.Config.CharSlotIndex ?? 0))
+
+      await once(this.GameClient, 'PacketReceived:CharSelected', { signal: abort.signal });
+      this.GameClient.sendPacket(new RequestKeyMapping())
+      this.GameClient.sendPacket(new EnterWorld())
+
+      for await (const [e] of on(this.GameClient, "PacketReceived:SystemMessage", { signal: abort.signal })) {
+        if ((e.packet as SystemMessage).messageId === 34 /** WELCOME_TO_LINEAGE */) {
+          Logger.getLogger('CommandEnter').info('EnterWorld system message received');
+          break;
+        }
+      }
+    } catch (err) {
+      abort.abort();
+      throw err
+    }
+
+    const ret = {
+      login: this.LoginClient,
+      game: this.GameClient,
+    }
+    this.GameClient.emit("LoggedIn", ret);
+
+    return ret;
   }
 }
