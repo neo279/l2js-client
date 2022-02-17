@@ -46,16 +46,35 @@ import CommandRequestBypass from "./CommandRequestBypass";
 type CommandArgs<Type extends AbstractGameCommand> = Parameters<Type['execute']>
 
 export default abstract class ClientCommands {
-
   LoginClient = new LoginClient();
 
   GameClient = new GameClient();
 
-  command<Type extends AbstractGameCommand>(Command: new(LoginClient: LoginClient, GameClient: GameClient) => Type): Type['execute'] {
+  command<Type extends AbstractGameCommand>(Command: { new(LoginClient: LoginClient, GameClient: GameClient): Type }): Type['execute'] {
     const command = new Command(this.LoginClient, this.GameClient);
 
     return command.execute.bind(command);
   }
+
+  registerCommand<Type extends AbstractGameCommand>(name: string, Command: { new(LoginClient: LoginClient, GameClient: GameClient): Type }): this {
+    if (name in this) {
+      throw new Error(`Command ${name} is already registered.`);
+    }
+
+    Object.assign(this, {
+      [name]: (...args: CommandArgs<Type>) => {
+        return this.command(Command)(...args);
+      }
+    });
+
+    return this;
+  }
+
+  // login(ip, port, username, password)
+  // selectGameServer({ip, port})
+  // selectCharacter({slot})
+  // createCharacter({race,sex,class,hair...})
+  // deleteCharacter({slot})
 
   say(...args: CommandArgs<CommandSay>) {
     return this.command(CommandSay)(...args);
@@ -243,19 +262,5 @@ export default abstract class ClientCommands {
    */
   dialog(...args: CommandArgs<CommandRequestBypass>) {
     return this.command(CommandRequestBypass)(...args);
-  }
-
-  registerCommand<Type extends AbstractGameCommand>(name: string, Command: { new(LoginClient: LoginClient, GameClient: GameClient): Type }): this {
-    if (name in this) {
-      throw new Error(`Command ${name} is already registered.`);
-    }
-
-    Object.assign(this, {
-      [name]: (...args: CommandArgs<Type>) => {
-        return this.command(Command)(...args);
-      }
-    });
-    
-    return this;
   }
 }
